@@ -1,0 +1,65 @@
+#
+# syntax: https://docs.docker.com/compose/yml/
+#
+
+version: "2"
+
+services:
+#    swagger_ui:
+#        image: cuongnb14/swagger_ui:0.1
+#            - mariadb
+#        networks:
+#            - swagger-back
+#        expose:
+#            - "8000"
+#        ports:
+#            - "8000:8000"
+#        volumes:
+#            - .:/usr/src/app
+#        env_file: docker-env
+#        environment:
+#            DJANGO_SETTINGS_MODULE: 'config.settings.local'
+#        cpu_shares: 512             # 0.5 CPU
+#        mem_limit: 1036870912        # 1 G RAM
+#        # restart: always
+#        logging:
+#            driver: "json-file"
+#            options:
+#                max-size: "100M"
+#                max-file: "3"
+#        command: honcho start -f Procfile_dev
+#        #command: honcho start -f Procfile
+    mariadb:
+        image: mariadb:10.3
+        command: --slow_query_log='ON' --long_query_time=0.5 --slow_query_log_file='/var/lib/mysql/slow-queries.log'
+        volumes:
+            - ./mysql-data/:/var/lib/mysql/
+            - ./mysql-init-data/:/docker-entrypoint-initdb.d/
+      #        env_file:
+      #            - ./docker-env
+        environment:
+           - MYSQL_ROOT_PASSWORD=lab@secret
+           - MYSQL_USER=swagger
+           - MYSQL_PASSWORD=lab@123
+        ports:
+            - "127.0.0.1:3309:3306"
+        networks:
+            - swagger-back
+        hostname: mysql
+        #domainname: onfta.com
+        cpu_shares: 512             # 0.5 CPU
+        mem_limit: 1073741824       # 1024 MB RAM
+        # memswap_limit: 0            # 0 MB SWAP
+        # privileged: true
+        # restart: always
+        # stdin_open: true
+        # tty: true
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "100M"
+                max-file: "3"
+
+networks:
+    swagger-back:
+
