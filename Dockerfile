@@ -29,10 +29,8 @@ COPY . /usr/src/app
 RUN pip3 install -r requirements/local.txt
 RUN pip3 install -r requirements/production.txt
 
-RUN pip3 install honcho
-
 EXPOSE 8000
 
 ENV C_FORCE_ROOT="true"
-CMD ["honcho", "start"]
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 

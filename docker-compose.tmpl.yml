@@ -5,30 +5,30 @@
 version: "2"
 
 services:
-#    swagger_ui:
-#        image: cuongnb14/swagger_ui:0.1
-#            - mariadb
-#        networks:
-#            - swagger-back
-#        expose:
-#            - "8000"
-#        ports:
-#            - "8000:8000"
-#        volumes:
-#            - .:/usr/src/app
-#        env_file: docker-env
-#        environment:
-#            DJANGO_SETTINGS_MODULE: 'config.settings.local'
-#        cpu_shares: 512             # 0.5 CPU
-#        mem_limit: 1036870912        # 1 G RAM
-#        # restart: always
-#        logging:
-#            driver: "json-file"
-#            options:
-#                max-size: "100M"
-#                max-file: "3"
-#        command: honcho start -f Procfile_dev
-#        #command: honcho start -f Procfile
+    swagger_ui:
+        image: cuongnb14/swagger_ui:0.1
+            - mariadb
+        networks:
+            - swagger-back
+        expose:
+            - "8000"
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/usr/src/app
+        env_file: docker-env
+        environment:
+            DJANGO_SETTINGS_MODULE: 'config.settings.local'
+        cpu_shares: 512             # 0.5 CPU
+        mem_limit: 1036870912        # 1 G RAM
+        # restart: always
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "100M"
+                max-file: "3"
+        command: /usr/local/bin/gunicorn config.wsgi:application -w 2 -b :8000
+
     mariadb:
         image: mariadb:10.3
         command: --slow_query_log='ON' --long_query_time=0.5 --slow_query_log_file='/var/lib/mysql/slow-queries.log'
