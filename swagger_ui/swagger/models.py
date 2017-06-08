@@ -34,9 +34,9 @@ class Info(models.Model):
 class Security(models.Model):
     document = models.OneToOneField(Document, on_delete=models.CASCADE, primary_key=True)
     key = models.CharField(max_length=45)
-    type = models.CharField(choices=TYPE, default=TYPE.string, max_length=45)
+    type = models.CharField(default="apiKey", max_length=45)
     name = models.CharField(max_length=45)
-    at = models.CharField(max_length=45)
+    at = models.CharField(max_length=45, default="header")
 
 
 class Schema(models.Model):
@@ -63,7 +63,7 @@ class Property(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=255)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name

@@ -167,9 +167,13 @@ class DocumentSerializer(serializers.ModelSerializer):
     def get_securityDefinitions(self, doc):
         try:
             serializer = SecuritySerializer(doc.security)
-            name = serializer.data["name"]
-            del serializer.data["name"]
-            return {name: serializer.data}
+            data = serializer.data.copy()
+            key = data["key"]
+            data["in"] = serializer.data["at"]
+            del data["key"]
+            del data["at"]
+            print(data)
+            return {key: data}
         except Exception:
             return None
 
