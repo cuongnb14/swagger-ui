@@ -27,14 +27,14 @@ class Info(models.Model):
     version = models.CharField(max_length=45, default='1.0.0')
     title = models.CharField(max_length=45)
     description = models.CharField(max_length=45)
-    terms_of_service = models.CharField(max_length=255)
+    terms_of_service = models.CharField(max_length=255, null=True, blank=True)
     contact_email = models.CharField(max_length=255)
 
 
 class Security(models.Model):
     key = models.CharField(max_length=45)
     type = models.CharField(default="apiKey", max_length=45)
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, default="Authorization")
     at = models.CharField(max_length=45, default="header")
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
@@ -62,7 +62,7 @@ class Property(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=45)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True, blank=True)
     document = models.ForeignKey(Document, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
