@@ -57,6 +57,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # custom users app
     'swagger_ui.users.apps.UsersConfig',
+    'swagger_ui.swagger',
     # Your stuff: custom apps go here
 ]
 
