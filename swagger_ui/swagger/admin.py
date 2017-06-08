@@ -28,8 +28,18 @@ class PathParameterInline(admin.StackedInline):
     extra = 1
 
 
+class ParameterInline(admin.StackedInline):
+    model = models.Parameter
+    extra = 1
+
+
 class PathSchemaInline(admin.StackedInline):
     model = models.PathSchema
+    extra = 1
+
+
+class SchemaInline(admin.StackedInline):
+    model = models.Schema
     extra = 1
 
 
@@ -40,7 +50,7 @@ class PropertyInline(admin.StackedInline):
 
 @admin.register(models.Document)
 class DocumentAdmin(admin.ModelAdmin):
-    inlines = [InfoInline, PathInline, SecurityInline]
+    inlines = [InfoInline, PathInline, SecurityInline, SchemaInline, ParameterInline]
     list_display = ["name", "swagger", "base_path"]
 
 
