@@ -32,11 +32,11 @@ class Info(models.Model):
 
 
 class Security(models.Model):
-    document = models.OneToOneField(Document, on_delete=models.CASCADE, primary_key=True)
     key = models.CharField(max_length=45)
     type = models.CharField(default="apiKey", max_length=45)
     name = models.CharField(max_length=45)
     at = models.CharField(max_length=45, default="header")
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
 
 class Schema(models.Model):
