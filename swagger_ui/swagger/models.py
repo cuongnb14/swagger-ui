@@ -2,7 +2,7 @@ from django.db import models
 from model_utils import Choices
 
 METHOD = Choices('post', 'get', 'delete', 'put')
-TYPE = Choices('string', 'integer')
+TYPE = Choices('string', 'integer', 'object', 'array')
 HTTP_CODE = Choices((200, 'http_200', 200),
                     (202, 'http_202', 202),
                     (400, 'http_400', 400),
@@ -41,6 +41,10 @@ class Security(models.Model):
 class Schema(models.Model):
     name = models.CharField(max_length=45)
     type = models.CharField(choices=TYPE, default=TYPE.string, max_length=45)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Property(models.Model):
@@ -51,11 +55,17 @@ class Property(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     schema = models.ForeignKey(Schema, on_delete=models.CASCADE, null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=255)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Parameter(models.Model):
@@ -66,6 +76,9 @@ class Parameter(models.Model):
     type = models.CharField(max_length=45)
     required = models.BooleanField()
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Path(models.Model):
@@ -78,6 +91,9 @@ class Path(models.Model):
     schemas = models.ManyToManyField(Schema, related_name='paths', through='PathSchema')
     parameters = models.ManyToManyField(Parameter, related_name='paths', through='PathParameter')
 
+    def __str__(self):
+        return '{} {}'.format(self.method, self.path)
+
 
 class PathSchema(models.Model):
     at = models.CharField(choices=AT, default=AT.body, max_length=45)
@@ -87,6 +103,9 @@ class PathSchema(models.Model):
 
     schema = models.ForeignKey(Schema, on_delete=models.CASCADE)
     path = models.ForeignKey(Path, models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class PathParameter(models.Model):
