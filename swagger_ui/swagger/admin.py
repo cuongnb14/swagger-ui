@@ -48,6 +48,11 @@ class PropertyInline(admin.StackedInline):
     extra = 1
 
 
+class PathTagInline(admin.StackedInline):
+    model = models.PathTag
+    extra = 1
+
+
 @admin.register(models.Document)
 class DocumentAdmin(admin.ModelAdmin):
     inlines = [InfoInline, PathInline, SecurityInline, SchemaInline, ParameterInline]
@@ -56,7 +61,7 @@ class DocumentAdmin(admin.ModelAdmin):
 
 @admin.register(models.Path)
 class PathAdmin(admin.ModelAdmin):
-    inlines = [PathParameterInline, PathSchemaInline, ResponseInline, ]
+    inlines = [PathParameterInline, PathSchemaInline, ResponseInline, PathTagInline]
     list_display = ["path", "method"]
 
 
@@ -68,3 +73,4 @@ class SchemaAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Property)
 admin.site.register(models.Parameter)
+admin.site.register(models.Tag)

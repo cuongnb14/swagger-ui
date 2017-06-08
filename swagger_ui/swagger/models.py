@@ -16,6 +16,7 @@ class Document(models.Model):
     name = models.CharField(max_length=45)
     swagger = models.CharField(max_length=45, default='2.0')
     base_path = models.CharField(max_length=255)
+    host = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -85,11 +86,12 @@ class Path(models.Model):
     path = models.CharField(max_length=255)
     method = models.CharField(choices=METHOD, default=METHOD.get, max_length=45)
     summary = models.CharField(max_length=255)
-    description = models.TextField(null=True, blank=True)
+    description = models.CharField(null=True, blank=True, max_length=255)
 
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
     schemas = models.ManyToManyField(Schema, related_name='paths', through='PathSchema')
     parameters = models.ManyToManyField(Parameter, related_name='paths', through='PathParameter')
+    tags = models.ManyToManyField(Tag, related_name='paths', through='PathTag')
 
     def __str__(self):
         return '{} {}'.format(self.method, self.path)

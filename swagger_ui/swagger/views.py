@@ -10,5 +10,5 @@ class DocumentView(APIView):
     def get(self, request, doc_id):
         doc = models.Document.objects.get(pk=doc_id)
         serializer = DocumentSerializer(doc)
-        data = dict(serializer.data)
-        return Response(del_none(data))
+        # data = dict(serializer.data)
+        return Response(del_none(serializer.data))

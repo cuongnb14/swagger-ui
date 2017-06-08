@@ -80,9 +80,21 @@ class ResponseSerializer(serializers.ModelSerializer):
         exclude = ('id', 'path')
 
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Tag
+        exclude = ('id', 'document')
+
+
 class PathSerializer(serializers.ModelSerializer):
     parameters = serializers.SerializerMethodField()
     responses = serializers.SerializerMethodField()
+    tags = serializers.SerializerMethodField()
+
+    def get_tags(self, path):
+        tags = path.tags.all()
+        serializer = TagSerializer(tags, many=True)
+        return [tag["name"] for tag in serializer.data]
 
     def get_responses(self, path):
         responses = path.response_set.all()
@@ -116,11 +128,17 @@ class SecuritySerializer(serializers.ModelSerializer):
 
 
 class DocumentSerializer(serializers.ModelSerializer):
+    tags = serializers.SerializerMethodField()
     info = InfoSerializer()
     basePath = serializers.CharField(source='base_path')
     paths = serializers.SerializerMethodField()
     securityDefinitions = serializers.SerializerMethodField()
     definitions = serializers.SerializerMethodField()
+
+    def get_tags(self, doc):
+        tags = doc.tag_set.all()
+        serializer = TagSerializer(tags, many=True)
+        return serializer.data
 
     def get_definitions(self, doc):
         schemas = doc.schema_set.all()
