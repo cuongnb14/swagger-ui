@@ -22,7 +22,7 @@ class Document(models.Model):
 
 
 class Info(models.Model):
-    document = models.OneToOneField(Document, on_delete=models.CASCADE)
+    document = models.OneToOneField(Document, on_delete=models.CASCADE, primary_key=True)
     version = models.CharField(max_length=45, default='1.0.0')
     title = models.CharField(max_length=45)
     description = models.CharField(max_length=45)
@@ -31,7 +31,7 @@ class Info(models.Model):
 
 
 class Security(models.Model):
-    document = models.OneToOneField(Document, on_delete=models.CASCADE)
+    document = models.OneToOneField(Document, on_delete=models.CASCADE, primary_key=True)
     key = models.CharField(max_length=45)
     type = models.CharField(choices=TYPE, default=TYPE.string, max_length=45)
     name = models.CharField(max_length=45)
