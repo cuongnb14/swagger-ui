@@ -9,6 +9,11 @@ docker-push:
 docker-pull:
 	docker pull cuongnb14/swagger_ui:0.1
 
+pull:
+	git pull && make restart
+
 up:
 	docker-compose up -d
 
+restart:
+	docker-compose restart swagger_ui
