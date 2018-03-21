@@ -70,7 +70,5 @@ staticfiles/
 /mysql-data
 /elasticsearch-data
 /logs
-docker-env
-docker-compose.yml
 fabfile_config.py
 last_commit_id.txt
