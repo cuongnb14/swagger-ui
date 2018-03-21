@@ -17,3 +17,13 @@ up:
 
 restart:
 	docker-compose restart swagger_ui
+
+d-migrate:
+	docker-compose exec swagger_ui python3 manage.py migrate
+
+d-makemigrations:
+	docker-compose exec swagger_ui python3 manage.py makemigrations
+
+d-create-superuser:
+	docker-compose exec swagger_ui python3 manage.py createsuperuser
+

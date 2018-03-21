@@ -7,6 +7,7 @@ version: "2"
 services:
     swagger_ui:
         image: cuongnb14/swagger_ui:0.1
+        build: .
         networks:
             - swagger-back
         expose:
