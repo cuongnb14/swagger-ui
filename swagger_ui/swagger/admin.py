@@ -45,6 +45,7 @@ class SchemaInline(admin.StackedInline):
 
 class PropertyInline(admin.StackedInline):
     model = models.Property
+    fk_name = "schema"
     extra = 1
 
 

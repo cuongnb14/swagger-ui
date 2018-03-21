@@ -42,8 +42,14 @@ class SchemaSerializer(serializers.ModelSerializer):
         result = {}
         for property in serializer.data:
             name = property["name"]
-            del property["name"]
-            del property["required"]
+            if property["ref"]:
+                property = {
+                    "$ref": "#/definitions/{}".format(property["ref"]["name"])
+                }
+            else:
+                del property["name"]
+                del property["required"]
+                del property["ref"]
             result[name] = property
         return result
 

@@ -2,7 +2,7 @@ from django.db import models
 from model_utils import Choices
 
 METHOD = Choices('post', 'get', 'delete', 'put')
-TYPE = Choices('string', 'integer', 'object', 'array')
+TYPE = Choices('string', 'integer', 'object', 'array', 'boolean')
 HTTP_CODE = Choices((200, 'http_200', 200),
                     (202, 'http_202', 202),
                     (400, 'http_400', 400),
@@ -54,6 +54,7 @@ class Property(models.Model):
     required = models.BooleanField(default=False)
     example = models.CharField(max_length=45, null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    ref = models.ForeignKey(Schema, on_delete=models.CASCADE, null=True, blank=True, related_name="ref_for")
     schema = models.ForeignKey(Schema, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
