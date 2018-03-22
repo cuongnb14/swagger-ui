@@ -26,7 +26,7 @@ class Info(models.Model):
     document = models.OneToOneField(Document, on_delete=models.CASCADE, primary_key=True)
     version = models.CharField(max_length=45, default='1.0.0')
     title = models.CharField(max_length=45)
-    description = models.CharField(max_length=45)
+    description = models.TextField()
     terms_of_service = models.CharField(max_length=255, null=True, blank=True)
     contact_email = models.CharField(max_length=255)
 
