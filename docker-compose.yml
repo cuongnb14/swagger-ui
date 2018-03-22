@@ -56,8 +56,6 @@ services:
         image: swaggerapi/swagger-ui:v3.4.5
         ports:
             - "8080:8080"
-        volumes:
-            - ./docs/swagger.json:/swagger.json
         environment:
             #- SWAGGER_JSON=/swagger.json
             - API_URL=http://swagger_ui/8000/docs/1?format=json

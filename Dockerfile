@@ -10,12 +10,8 @@ MAINTAINER Cuong Nguyen "cuongnb14@gmail.com"
 
 RUN apt-get update -qq
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip build-essential python3-dev
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libmysqlclient-dev \
-        libxml2-dev libxslt1-dev
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libssl-dev libffi-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip build-essential python3-dev \
+        libmysqlclient-dev libxml2-dev libxslt1-dev libmysqlclient-dev libxml2-dev libxslt1-dev libssl-dev libffi-dev
 
 RUN apt-get install locales
 RUN locale-gen en_US.UTF-8
@@ -27,7 +23,6 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 RUN pip3 install -r requirements/local.txt
-RUN pip3 install -r requirements/production.txt
 
 EXPOSE 8000
 
