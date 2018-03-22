@@ -46,10 +46,18 @@ class SchemaSerializer(serializers.ModelSerializer):
                 property = {
                     "$ref": "#/definitions/{}".format(property["ref"]["name"])
                 }
+            elif property["type"] == models.TYPE.array:
+                property = {
+                    "type": models.TYPE.array,
+                    "items": {
+                        "type": property["items_type"],
+                    }
+                }
             else:
                 del property["name"]
                 del property["required"]
                 del property["ref"]
+                del property["items_type"]
             result[name] = property
         return result
 

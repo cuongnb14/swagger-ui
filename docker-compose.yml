@@ -27,7 +27,8 @@ services:
             options:
                 max-size: "100M"
                 max-file: "3"
-        command: /usr/local/bin/gunicorn config.wsgi:application -w 2 -b :8000
+        # command: /usr/local/bin/gunicorn config.wsgi:application -w 2 -b :8000
+        command: python3 manage.py runserver 0.0.0.0:8000
 
     mariadb:
         image: mariadb:10.3
@@ -46,14 +47,24 @@ services:
         networks:
             - swagger-back
         hostname: mysql
-        #domainname: onfta.com
-        cpu_shares: 512             # 0.5 CPU
-        mem_limit: 1073741824       # 1024 MB RAM
-        # memswap_limit: 0            # 0 MB SWAP
-        # privileged: true
-        # restart: always
-        # stdin_open: true
-        # tty: true
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "100M"
+                max-file: "3"
+    docs:
+        image: swaggerapi/swagger-ui:v3.4.5
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./docs/swagger.json:/swagger.json
+        environment:
+            #- SWAGGER_JSON=/swagger.json
+            - API_URL=http://swagger_ui/8000/docs/1?format=json
+            - VALIDATOR_URL=null
+        hostname: docs
+        networks:
+            - swagger-back
         logging:
             driver: "json-file"
             options:

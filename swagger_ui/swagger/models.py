@@ -51,6 +51,7 @@ class Schema(models.Model):
 class Property(models.Model):
     name = models.CharField(max_length=45)
     type = models.CharField(choices=TYPE, default=TYPE.string, max_length=45)
+    items_type = models.CharField(choices=TYPE, default=TYPE.string, max_length=45)
     required = models.BooleanField(default=False)
     example = models.CharField(max_length=45, null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
