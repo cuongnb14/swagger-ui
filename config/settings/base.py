@@ -15,6 +15,7 @@ APPS_DIR = ROOT_DIR.path('swagger_ui')
 # Load operating system environment variables and then prepare to use them
 env = environ.Env()
 ALLOWED_HOSTS = ["*"]
+CORS_ORIGIN_ALLOW_ALL = True
 # .env file, should load only in development environment
 READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=False)
 
@@ -45,6 +46,7 @@ DJANGO_APPS = [
     'jet.dashboard',
     'jet',
     'django.contrib.admin',
+    'corsheaders',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
@@ -70,6 +72,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
